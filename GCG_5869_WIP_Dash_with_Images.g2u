@@ -1,0 +1,592 @@
+﻿Program.Sub.ScreenSU.Start
+Gui.F_Display1..Create(BaseForm)
+Gui.F_Display1..Caption("Form 1")
+Gui.F_Display1..Size(1024,720)
+Gui.F_Display1..MinX(0)
+Gui.F_Display1..MinY(0)
+Gui.F_Display1..Position(0,0)
+Gui.F_Display1..AlwaysOnTop(False)
+Gui.F_Display1..FontName("Tahoma")
+Gui.F_Display1..FontSize(8.25)
+Gui.F_Display1..ControlBox(True)
+Gui.F_Display1..MaxButton(True)
+Gui.F_Display1..MinButton(True)
+Gui.F_Display1..MousePointer(0)
+Gui.F_Display1..Moveable(True)
+Gui.F_Display1..Sizeable(True)
+Gui.F_Display1..ShowInTaskBar(True)
+Gui.F_Display1..TitleBar(True)
+Gui.F_Display1..Event(UnLoad,F_Display1_UnLoad)
+Gui.F_Display1.frmDash1.Create(Frame)
+Gui.F_Display1.frmDash1.Enabled(True)
+Gui.F_Display1.frmDash1.Visible(True)
+Gui.F_Display1.frmDash1.Zorder(0)
+Gui.F_Display1.frmDash1.Size(1006,651)
+Gui.F_Display1.frmDash1.Position(9,30)
+Gui.F_Display1.frmDash1.Caption("")
+Gui.F_Display1.frmDash1.FontName("Tahoma")
+Gui.F_Display1.frmDash1.FontSize(8.25)
+Gui.F_Display1.frmDash1.Anchor(15)
+Gui.F_Display1.GsGcDisplay1.Create(GsGridControl)
+Gui.F_Display1.GsGcDisplay1.Enabled(True)
+Gui.F_Display1.GsGcDisplay1.Visible(True)
+Gui.F_Display1.GsGcDisplay1.Zorder(0)
+Gui.F_Display1.GsGcDisplay1.Size(996,641)
+Gui.F_Display1.GsGcDisplay1.Position(5,5)
+Gui.F_Display1.GsGcDisplay1.Parent("frmDash1")
+Gui.F_Display1.GsGcDisplay1.Anchor(15)
+Gui.F_Display1.cmdShowAll.Create(Button)
+Gui.F_Display1.cmdShowAll.Enabled(True)
+Gui.F_Display1.cmdShowAll.Visible(True)
+Gui.F_Display1.cmdShowAll.Zorder(0)
+Gui.F_Display1.cmdShowAll.Size(75,23)
+Gui.F_Display1.cmdShowAll.Position(938,4)
+Gui.F_Display1.cmdShowAll.Caption("Show All")
+Gui.F_Display1.cmdShowAll.FontName("Tahoma")
+Gui.F_Display1.cmdShowAll.FontSize(8.25)
+Gui.F_Display1.cmdShowAll.Event(Click,cmdShowAll_Click)
+Gui.F_Display1.cmdShowAll.Anchor(9)
+Gui.F_Display1.lbl1.Create(Label,"",True,1,13,0,11,9,True,0,"Tahoma",8.25,,0,0)
+Gui.F_Display1.lbl1.BorderStyle(0)
+Gui.F_Display1.cmdRefresh.Create(Button)
+Gui.F_Display1.cmdRefresh.Enabled(True)
+Gui.F_Display1.cmdRefresh.Visible(True)
+Gui.F_Display1.cmdRefresh.Zorder(0)
+Gui.F_Display1.cmdRefresh.Size(75,23)
+Gui.F_Display1.cmdRefresh.Position(858,4)
+Gui.F_Display1.cmdRefresh.Caption("Refresh")
+Gui.F_Display1.cmdRefresh.FontName("Tahoma")
+Gui.F_Display1.cmdRefresh.FontSize(8.25)
+Gui.F_Display1.cmdRefresh.Event(Click,cmdRefresh_Click)
+Gui.F_Display1.cmdRefresh.Anchor(9)
+Gui.F_Display2..Create(BaseForm)
+Gui.F_Display2..Caption("Form 2")
+Gui.F_Display2..Size(1024,720)
+Gui.F_Display2..MinX(0)
+Gui.F_Display2..MinY(0)
+Gui.F_Display2..Position(0,0)
+Gui.F_Display2..AlwaysOnTop(False)
+Gui.F_Display2..FontName("Tahoma")
+Gui.F_Display2..FontSize(8.25)
+Gui.F_Display2..ControlBox(True)
+Gui.F_Display2..MaxButton(True)
+Gui.F_Display2..MinButton(True)
+Gui.F_Display2..MousePointer(0)
+Gui.F_Display2..Moveable(True)
+Gui.F_Display2..Sizeable(True)
+Gui.F_Display2..ShowInTaskBar(True)
+Gui.F_Display2..TitleBar(True)
+Gui.F_Display2..Event(UnLoad,F_Display2_UnLoad)
+Gui.F_Display2.frmDash2.Create(Frame)
+Gui.F_Display2.frmDash2.Enabled(True)
+Gui.F_Display2.frmDash2.Visible(True)
+Gui.F_Display2.frmDash2.Zorder(0)
+Gui.F_Display2.frmDash2.Size(1012,660)
+Gui.F_Display2.frmDash2.Position(5,25)
+Gui.F_Display2.frmDash2.Caption("")
+Gui.F_Display2.frmDash2.FontName("Tahoma")
+Gui.F_Display2.frmDash2.FontSize(8.25)
+Gui.F_Display2.frmDash2.Anchor(15)
+Gui.F_Display2.GsGcDisplay2.Create(GsGridControl)
+Gui.F_Display2.GsGcDisplay2.Enabled(True)
+Gui.F_Display2.GsGcDisplay2.Visible(True)
+Gui.F_Display2.GsGcDisplay2.Zorder(0)
+Gui.F_Display2.GsGcDisplay2.Size(1001,647)
+Gui.F_Display2.GsGcDisplay2.Position(6,5)
+Gui.F_Display2.GsGcDisplay2.Parent("frmDash2")
+Gui.F_Display2.GsGcDisplay2.Anchor(15)
+Gui.F_Display3..Create(BaseForm)
+Gui.F_Display3..Caption("Form 3")
+Gui.F_Display3..Size(1030,750)
+Gui.F_Display3..MinX(0)
+Gui.F_Display3..MinY(0)
+Gui.F_Display3..Position(0,0)
+Gui.F_Display3..AlwaysOnTop(False)
+Gui.F_Display3..FontName("Tahoma")
+Gui.F_Display3..FontSize(8.25)
+Gui.F_Display3..ControlBox(True)
+Gui.F_Display3..MaxButton(True)
+Gui.F_Display3..MinButton(True)
+Gui.F_Display3..MousePointer(0)
+Gui.F_Display3..Moveable(True)
+Gui.F_Display3..Sizeable(True)
+Gui.F_Display3..ShowInTaskBar(True)
+Gui.F_Display3..TitleBar(True)
+Gui.F_Display3..Event(UnLoad,F_Display3_UnLoad)
+Gui.F_Display3.frmDash3.Create(Frame)
+Gui.F_Display3.frmDash3.Enabled(True)
+Gui.F_Display3.frmDash3.Visible(True)
+Gui.F_Display3.frmDash3.Zorder(0)
+Gui.F_Display3.frmDash3.Size(1020,710)
+Gui.F_Display3.frmDash3.Position(5,5)
+Gui.F_Display3.frmDash3.Caption("")
+Gui.F_Display3.frmDash3.FontName("Tahoma")
+Gui.F_Display3.frmDash3.FontSize(8.25)
+Gui.F_Display3.frmDash3.Anchor(15)
+Gui.F_Display3.GsGcDisplay3.Create(GsGridControl)
+Gui.F_Display3.GsGcDisplay3.Enabled(True)
+Gui.F_Display3.GsGcDisplay3.Visible(True)
+Gui.F_Display3.GsGcDisplay3.Zorder(0)
+Gui.F_Display3.GsGcDisplay3.Size(1010,700)
+Gui.F_Display3.GsGcDisplay3.Position(5,5)
+Gui.F_Display3.GsGcDisplay3.Parent("frmDash3")
+Gui.F_Display3.GsGcDisplay3.Anchor(15)
+Gui.F_Display4..Create(BaseForm)
+Gui.F_Display4..Caption("Form 4")
+Gui.F_Display4..Size(1030,720)
+Gui.F_Display4..MinX(0)
+Gui.F_Display4..MinY(0)
+Gui.F_Display4..Position(0,0)
+Gui.F_Display4..AlwaysOnTop(False)
+Gui.F_Display4..FontName("Tahoma")
+Gui.F_Display4..FontSize(8.25)
+Gui.F_Display4..ControlBox(True)
+Gui.F_Display4..MaxButton(True)
+Gui.F_Display4..MinButton(True)
+Gui.F_Display4..MousePointer(0)
+Gui.F_Display4..Moveable(True)
+Gui.F_Display4..Sizeable(True)
+Gui.F_Display4..ShowInTaskBar(True)
+Gui.F_Display4..TitleBar(True)
+Gui.F_Display4..Event(UnLoad,F_Display4_UnLoad)
+Gui.F_Display4.frmDash4.Create(Frame)
+Gui.F_Display4.frmDash4.Enabled(True)
+Gui.F_Display4.frmDash4.Visible(True)
+Gui.F_Display4.frmDash4.Zorder(0)
+Gui.F_Display4.frmDash4.Size(1020,680)
+Gui.F_Display4.frmDash4.Position(5,5)
+Gui.F_Display4.frmDash4.Caption("")
+Gui.F_Display4.frmDash4.FontName("Tahoma")
+Gui.F_Display4.frmDash4.FontSize(8.25)
+Gui.F_Display4.frmDash4.Anchor(15)
+Gui.F_Display4.GsGcDisplay4.Create(GsGridControl)
+Gui.F_Display4.GsGcDisplay4.Enabled(True)
+Gui.F_Display4.GsGcDisplay4.Visible(True)
+Gui.F_Display4.GsGcDisplay4.Zorder(0)
+Gui.F_Display4.GsGcDisplay4.Size(1010,670)
+Gui.F_Display4.GsGcDisplay4.Position(5,5)
+Gui.F_Display4.GsGcDisplay4.Parent("frmDash4")
+Gui.F_Display4.GsGcDisplay4.Anchor(15)
+Program.Sub.ScreenSU.End
+
+Program.Sub.Preflight.Start
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+f.Intrinsic.Control.Try
+	Function.Intrinsic.UI.UsePixels ' Allows you to use Pixels instead of Twips throughout
+	
+	f.Intrinsic.Control.SelectCase(v.Caller.Hook)
+		f.Intrinsic.Control.Case(15710)
+			v.Passed.000021.Set("Dispatch List")
+		
+		f.Intrinsic.Control.Case(15780)		
+			f.Intrinsic.UI.InvokeWaitDialog("Creating Dispatch List", "Processing", )
+			f.Intrinsic.Control.CallSub(createDisplayDT)
+			f.Intrinsic.UI.CloseWaitDialog
+			gui.F_Display1..Show
+			gui.F_Display2..Show
+			gui.F_Display3..Show
+			gui.F_Display4..Show
+			f.Intrinsic.Control.CallSub(refreshLoop)
+	
+		f.Intrinsic.Control.CaseElse		
+			f.Intrinsic.UI.InvokeWaitDialog("Creating Dispatch List", "Processing", )
+			f.Intrinsic.Control.CallSub(createDisplayDT)
+			f.Intrinsic.UI.CloseWaitDialog
+			gui.F_Display1..Show
+			gui.F_Display2..Show
+			gui.F_Display3..Show
+			gui.F_Display4..Show
+			f.Intrinsic.Control.CallSub(refreshLoop)
+			
+	f.Intrinsic.Control.EndSelect	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.Control.CallSub(ErrorMsg, CurrentSub, v.Ambient.CurrentSubroutine)
+f.Intrinsic.Control.EndTry
+Program.Sub.Main.End
+
+Program.Sub.F_Display1_UnLoad.Start
+f.Intrinsic.Control.Try
+	'Serialize
+	f.Intrinsic.Control.CallSub(Serialize, sPassedGC, "GsGcDisplay1", iPassedNum, 58691, sPassedForm, "F_Display1", spassedGV, "display1GV")
+	f.Intrinsic.Control.CallSub(Serialize, sPassedGC, "GsGcDisplay2", iPassedNum, 58692, sPassedForm, "F_Display2", spassedGV, "display2GV")
+	f.Intrinsic.Control.CallSub(Serialize, sPassedGC, "GsGcDisplay3", sPassedNum, 58693, sPassedForm, "F_Display3", spassedGV, "display3GV")
+	f.Intrinsic.Control.CallSub(Serialize, sPassedGC, "GsGcDisplay4", iPassedNum, 58694, sPassedForm, "F_Display4", spassedGV, "display4GV")
+	f.Intrinsic.Control.End
+f.Intrinsic.Control.Catch
+	f.Intrinsic.Control.CallSub(ErrorMsg, CurrentSub, v.Ambient.CurrentSubroutine)
+f.Intrinsic.Control.EndTry
+Program.Sub.F_Display1_UnLoad.End
+
+Program.Sub.createDisplayDT.Start
+v.Local.iCnt.Declare
+v.Local.sWC.Declare
+v.Local.sWCImage.Declare
+v.Local.iWC_Cnt.Declare
+v.Local.sImageArray.Declare("ByteArray")
+v.Local.sText.Declare
+v.Local.sXMLFile.Declare
+v.Local.sWC_Format.Declare
+
+f.Intrinsic.Control.Try
+	f.Data.DataTable.Create("displayDT", true)
+	
+	f.ODBC.Connection!con.OpenCompanyConnection
+		f.Data.Datatable.CreateFromSQL("wcDT", "con", "Select MACHINE from V_WORKCENTERS", True)
+	f.ODBC.Connection!con.Close
+
+	f.Intrinsic.Control.For(v.Local.iCnt, 0, v.DataTable.wcDT.RowCount--, 1)
+		v.Local.sWC.Set(v.DataTable.wcDT(v.Local.iCnt).Machine!FieldValTrim)
+		f.Intrinsic.String.Build("{0}_Image", v.Local.sWC, v.Local.sWCImage)
+		f.Intrinsic.String.Build("{0}_Format", v.Local.sWC, v.Local.sWC_Format)
+		
+		f.Data.Datatable.AddColumn("displayDT", v.Local.sWC_Format, "String")
+		f.Data.Datatable.AddColumn("displayDT", v.Local.sWC, "String")
+		f.Data.Datatable.AddColumn("displayDT", v.Local.sWCImage, "ByteArray")
+		
+	f.Intrinsic.Control.Next(v.Local.iCnt)
+	
+	f.Data.DataView.Create("displayDT", "displayDV", 22)
+	'Create Gridview
+	gui.F_Display1.GsGcDisplay1.AddGridviewFromDataview("display1GV", "displayDT", "displayDV")
+	gui.F_Display1.GsGcDisplay1.MainView("display1GV")
+	'Load Properties
+	f.Intrinsic.Control.CallSub(loadGridProperties, sPassedForm, "F_Display1", sPassedGrid, "GsGcDisplay1", sPassedDisp, "display1GV")
+	
+	'Create Gridview
+	gui.F_Display2.GsGcDisplay2.AddGridviewFromDataview("display2GV", "displayDT", "displayDV")
+	gui.F_Display2.GsGcDisplay2.MainView("display2GV")
+	'Load Properties
+	f.Intrinsic.Control.CallSub(loadGridProperties, sPassedForm, "F_Display2", sPassedGrid, "GsGcDisplay2", sPassedDisp, "display2GV")	
+	
+	'Create Gridview
+	gui.F_Display3.GsGcDisplay3.AddGridviewFromDataview("display3GV", "displayDT", "displayDV")
+	gui.F_Display3.GsGcDisplay3.MainView("display3GV")
+	'Load Properties
+	f.Intrinsic.Control.CallSub(loadGridProperties, sPassedForm, "F_Display3", sPassedGrid, "GsGcDisplay3", sPassedDisp, "display3GV")
+	
+	'Create Gridview
+	gui.F_Display4.GsGcDisplay4.AddGridviewFromDataview("display4GV", "displayDT", "displayDV")
+	gui.F_Display4.GsGcDisplay4.MainView("display4GV")
+	'Load Properties
+	f.Intrinsic.Control.CallSub(loadGridProperties, sPassedForm, "F_Display4", sPassedGrid, "GsGcDisplay4", sPassedDisp, "display4GV")
+	
+	'Deserialize
+	f.Intrinsic.Control.CallSub(Deserialize, sPassedGC, "GsGcDisplay1", iPassedNum, 58691, sPassedForm, "F_Display1", spassedGV, "display1GV")
+	f.Intrinsic.Control.CallSub(Deserialize, sPassedGC, "GsGcDisplay2", iPassedNum, 58692, sPassedForm, "F_Display2", spassedGV, "display2GV")
+	f.Intrinsic.Control.CallSub(Deserialize, sPassedGC, "GsGcDisplay3", iPassedNum, 58693, sPassedForm, "F_Display3", spassedGV, "display3GV")
+	f.Intrinsic.Control.CallSub(Deserialize, sPassedGC, "GsGcDisplay4", iPassedNum, 58694, sPassedForm, "F_Display4", spassedGV, "display4GV")
+	
+	f.Intrinsic.Control.CallSub(refreshDT)
+
+f.Intrinsic.Control.Catch
+	f.Intrinsic.Control.CallSub(ErrorMsg, CurrentSub, v.Ambient.CurrentSubroutine)
+f.Intrinsic.Control.EndTry
+Program.Sub.createDisplayDT.End
+
+Program.Sub.loadGridProperties.Start
+v.Local.iCnt.Declare
+v.Local.sFields.Declare
+v.Local.iVisibleIndex.Declare
+v.Local.sWC.Declare
+v.Local.sWCImage.Declare
+v.Local.sCaption.Declare
+v.Local.sWC_Format.Declare
+
+v.Local.sForm.Declare
+v.Local.sGrid.Declare
+v.Local.sDisp.Declare
+
+v.Local.iTag.Declare
+v.Local.sTagName.Declare
+f.Intrinsic.Control.Try
+
+	v.Local.sForm.Set(v.Args.sPassedForm)
+	v.Local.sGrid.Set(v.Args.sPassedGrid)
+	v.Local.sDisp.Set(v.Args.sPassedDisp)
+	
+	f.Intrinsic.String.Split(v.DataTable.displayDT.FieldNames, "*!*", v.Local.sFields)
+	f.Intrinsic.Control.For(v.Local.iCnt, 0, v.Local.sFields.UBound, 1)
+		gui.[v.Local.sForm].[v.Local.sGrid].SetColumnProperty(v.Local.sDisp, v.Local.sFields(v.Local.iCnt), "HeaderFontBold", True)
+		'gui.[v.Local.sForm].[v.Local.sGrid].SetColumnProperty(v.Local.sDisp, v.Local.sFields(v.Local.iCnt), "Visible", True)
+		gui.[v.Local.sForm].[v.Local.sGrid].SetColumnProperty(v.Local.sDisp, v.Local.sFields(v.Local.iCnt), "ReadOnly", True)
+		gui.[v.Local.sForm].[v.Local.sGrid].SetColumnProperty(v.Local.sDisp, v.Local.sFields(v.Local.iCnt), "AllowEdit", False)
+		gui.[v.Local.sForm].[v.Local.sGrid].SetColumnProperty(v.Local.sDisp, v.Local.sFields(v.Local.iCnt), "HeaderHAlignment", "Center")
+		gui.[v.Local.sForm].[v.Local.sGrid].SetColumnProperty(v.Local.sDisp, v.Local.sFields(v.Local.iCnt), "CellHAlignment", "Near")
+		'gui.[v.Local.sForm].[v.Local.sGrid].SetColumnProperty(v.Local.sDisp, v.Local.sFields(v.Local.iCnt), "HeaderBackColor", v.Color.GSS)
+		'gui.[v.Local.sForm].[v.Local.sGrid].SetColumnProperty(v.Local.sDisp, v.Local.sFields(v.Local.iCnt), "HeaderForeColor", v.Color.White)
+		gui.[v.Local.sForm].[v.Local.sGrid].SetColumnProperty(v.Local.sDisp, v.Local.sFields(v.Local.iCnt), "Width", 150)
+		gui.[v.Local.sForm].[v.Local.sGrid].SetColumnProperty(v.Local.sDisp, v.Local.sFields(v.Local.iCnt), "AllowFocus", False)
+		
+	f.Intrinsic.Control.Next(v.Local.iCnt)
+	
+	v.Local.iTag.Set(0)
+
+	f.Intrinsic.Control.For(v.Local.iCnt, 0, v.DataTable.wcDT.RowCount--, 1)
+		v.Local.sWC.Set(v.DataTable.wcDT(v.Local.iCnt).Machine!FieldValTrim)
+		f.Intrinsic.String.Build("{0}_Image", v.Local.sWC, v.Local.sWCImage)
+		f.Intrinsic.String.Build("{0} Part Image", v.Local.sWC, v.Local.sCaption)
+		f.Intrinsic.String.Build("{0}_Format", v.Local.sWC, v.Local.sWC_Format)
+		
+		gui.[v.Local.sForm].[v.Local.sGrid].SetColumnProperty(v.Local.sDisp, v.Local.sWC, "CellWordWrap", "Wrap")
+		gui.[v.Local.sForm].[v.Local.sGrid].SetColumnProperty(v.Local.sDisp, v.Local.sWC, "Width", 150)
+		gui.[v.Local.sForm].[v.Local.sGrid].SetColumnProperty(v.Local.sDisp, v.Local.sWCImage, "Caption", v.Local.sCaption)
+		gui.[v.Local.sForm].[v.Local.sGrid].SetColumnProperty(v.Local.sDisp, v.Local.sWC_Format, "Caption", "")
+		'gui.[v.Local.sForm].[v.Local.sGrid].SetColumnProperty(v.Local.sDisp, v.Local.sWC_Format, "Visible", False)
+		gui.[v.Local.sForm].[v.Local.sGrid].SetColumnProperty(v.Local.sDisp, v.Local.sWC_Format, "Width", 20)
+		
+		'Conditional Formatting
+		f.Intrinsic.String.Build("Tag{0}", v.Local.iTag.++, v.Local.sTagName)
+		gui.[v.Local.sForm].[v.Local.sGrid].AddStyleFormatCondition(v.Local.sDisp, v.Local.sWC_Format, v.Local.sTagName, "EQUAL", 1)
+		gui.[v.Local.sForm].[v.Local.sGrid].SetStyleFormatConditionProperty(v.Local.sDisp, v.Local.sWC_Format, v.Local.sTagName, "ApplyToRow", False) 
+		gui.[v.Local.sForm].[v.Local.sGrid].SetStyleFormatConditionProperty(v.Local.sDisp, v.Local.sWC_Format, v.Local.sTagName, "BackColor", v.Color.Green) 
+		
+		f.Intrinsic.String.Build("Tag{0}", v.Local.iTag.++, v.Local.sTagName)
+		gui.[v.Local.sForm].[v.Local.sGrid].AddStyleFormatCondition(v.Local.sDisp, v.Local.sWC_Format, v.Local.sTagName, "EQUAL", 2)
+		gui.[v.Local.sForm].[v.Local.sGrid].SetStyleFormatConditionProperty(v.Local.sDisp, v.Local.sWC_Format, v.Local.sTagName, "ApplyToRow", False) 
+		gui.[v.Local.sForm].[v.Local.sGrid].SetStyleFormatConditionProperty(v.Local.sDisp, v.Local.sWC_Format, v.Local.sTagName, "BackColor", v.Color.Yellow) 
+		
+		f.Intrinsic.String.Build("Tag{0}", v.Local.iTag.++, v.Local.sTagName)
+		gui.[v.Local.sForm].[v.Local.sGrid].AddStyleFormatCondition(v.Local.sDisp, v.Local.sWC_Format, v.Local.sTagName, "EQUAL", 3)
+		gui.[v.Local.sForm].[v.Local.sGrid].SetStyleFormatConditionProperty(v.Local.sDisp, v.Local.sWC_Format, v.Local.sTagName, "ApplyToRow", False) 
+		gui.[v.Local.sForm].[v.Local.sGrid].SetStyleFormatConditionProperty(v.Local.sDisp, v.Local.sWC_Format, v.Local.sTagName, "BackColor", v.Color.Red) 
+		
+		f.Intrinsic.String.Build("Tag{0}", v.Local.iTag.++, v.Local.sTagName)
+		gui.[v.Local.sForm].[v.Local.sGrid].AddStyleFormatCondition(v.Local.sDisp, v.Local.sWC_Format, v.Local.sTagName, "EQUAL", 4)
+		gui.[v.Local.sForm].[v.Local.sGrid].SetStyleFormatConditionProperty(v.Local.sDisp, v.Local.sWC_Format, v.Local.sTagName, "ApplyToRow", False) 
+		gui.[v.Local.sForm].[v.Local.sGrid].SetStyleFormatConditionProperty(v.Local.sDisp, v.Local.sWC_Format, v.Local.sTagName, "BackColor", v.Color.Orange) 
+	f.Intrinsic.Control.Next(v.Local.iCnt)
+	
+	'GridView Properties
+	gui.[v.Local.sForm].[v.Local.sGrid].BestFitColumns(v.Local.sDisp)
+	gui.[v.Local.sForm].[v.Local.sGrid].SetGridviewProperty(v.Local.sDisp, "OptionsViewColumnAutoWidth", False)
+	'gui.[v.Local.sForm].[v.Local.sGrid].SetGridviewProperty(v.Local.sDisp, "OptionsViewRowAutoHeight", True)
+	gui.[v.Local.sForm].[v.Local.sGrid].SetGridviewProperty(v.Local.sDisp, "rowheight", 150)
+	gui.[v.Local.sForm].[v.Local.sGrid].SetGridviewProperty(v.Local.sDisp, "MultiSelectMode", 1)
+	'gui.[v.Local.sForm].[v.Local.sGrid].SetGridviewProperty(v.Local.sDisp, "OptionsViewShowAutoFilterRow", True)
+	'gui.[v.Local.sForm].[v.Local.sGrid].SetGridviewProperty(v.Local.sDisp, "OptionsFindAlwaysVisible", True)
+	'gui.[v.Local.sForm].[v.Local.sGrid].SetGridviewProperty(v.Local.sDisp, "Showgrouppanel", True)
+	
+	
+	'gui.[v.Local.sForm].[v.Local.sGrid].SetColumnProperty(v.Local.sDisp, "ASY1", "CellWordWrap", "Wrap")
+	
+	'Possible Column Properties 
+	'gui.[v.Local.sForm].[v.Local.sGrid].SetColumnProperty(v.Local.sDisp, "Default", "ReadOnly", False)
+	'gui.[v.Local.sForm].[v.Local.sGrid].SetColumnProperty(v.Local.sDisp, "Default", "AllowEdit", True)
+	'gui.[v.Local.sForm].[v.Local.sGrid].SetColumnProperty(v.Local.sDisp, "Default", "HeaderHAlignment", "Center")
+	'gui.[v.Local.sForm].[v.Local.sGrid].SetColumnProperty(v.Local.sDisp, "Default", "CellHAlignment", "Center")
+	'gui.[v.Local.sForm].[v.Local.sGrid].SetColumnProperty(v.Local.sDisp, "Default", "Caption", "Default")
+	'gui.[v.Local.sForm].[v.Local.sGrid].SetColumnProperty(v.Local.sDisp, "Default", "Visible", False)
+	'gui.[v.Local.sForm].[v.Local.sGrid].SetColumnProperty(v.Local.sDisp, "Default", "DisplayCustomDatetime", "d")
+	
+	'VisibleIndex
+	'gui.[v.Local.sForm].[v.Local.sGrid].SetColumnProperty(v.Local.sDisp, "Default", "VisibleIndex", v.Local.iVisibleIndex)
+	'gui.[v.Local.sForm].[v.Local.sGrid].SetColumnProperty(v.Local.sDisp, "Default", "VisibleIndex", v.Local.iVisibleIndex.++)
+	
+	'Conditional Formatting
+'	gui.[v.Local.sForm].[v.Local.sGrid].AddStyleFormatCondition(v.Local.sDisp, "columnName", "TagName", "EQUAL", 1)
+'	gui.[v.Local.sForm].[v.Local.sGrid].SetStyleFormatConditionProperty(v.Local.sDisp, "columnName", "TagName", "ApplyToRow", True) 
+'	gui.[v.Local.sForm].[v.Local.sGrid].SetStyleFormatConditionProperty(v.Local.sDisp, "columnName", "TagName", "BackColor", "Color") 
+f.Intrinsic.Control.Catch
+	f.Intrinsic.Control.CallSub(ErrorMsg, CurrentSub, v.Ambient.CurrentSubroutine)
+f.Intrinsic.Control.EndTry
+Program.Sub.loadGridProperties.End
+
+Program.Sub.ErrorMsg.Start
+v.Local.sError.Declare
+v.Local.sFile.Declare
+v.Local.bExist.Declare
+
+'Closes ODBC connection, default to connection : "con"
+'f.Intrinsic.Control.If(v.ODBC!con.State, =, 1)
+'	f.ODBC.Connection!con.Close
+'f.Intrinsic.Control.EndIf
+
+f.Intrinsic.String.Build("{0}\CUSTOM\GCG_5869\Running{1}.txt", v.Caller.GlobalDir, v.Caller.CompanyCode, v.Local.sFile)
+f.Intrinsic.File.Exists(v.Local.sFile, v.Local.bExist)
+f.Intrinsic.Control.If(v.Local.bExist)
+	f.Intrinsic.File.DeleteFile(v.Local.sFile)
+f.Intrinsic.Control.EndIf
+'Generic Error message.
+f.Intrinsic.String.Build("Project GCG_5869_WIP_Dash_With_Image..g2u {0}{0}Subroutine: {1}{0}Error: {2} with Description: {3}", v.Ambient.NewLine, v.Args.CurrentSub, v.Ambient.ErrorNumber, v.Ambient.ErrorDescription, v.Local.sError)
+f.Intrinsic.UI.Msgbox(v.Local.sError)
+Program.Sub.ErrorMsg.End
+
+Program.Sub.refreshDT.Start
+v.Local.sXMLFile.Declare
+v.Local.bFile.Declare
+v.Local.sCaption.Declare
+f.Intrinsic.Control.Try	
+	f.Intrinsic.String.Build("{0}\CUSTOM\GCG_5869\dt{1}.xml", v.Caller.GlobalDir, v.Caller.CompanyCode, v.Local.sXMLFile)
+	'f.Intrinsic.String.Build("{0}dt{1}.xml", v.Global.sFolder.Trim, v.Caller.CompanyCode, v.Local.sXML_File)
+	'Check if file exists.
+	f.Intrinsic.File.Exists(v.Local.sXMLFile, v.Local.bFile)
+	'If it does, reload table.
+	f.Intrinsic.Control.If(v.Local.bFile)
+		f.Data.Datatable.DeleteRow("displayDT")
+		f.Data.Datatable.AcceptChanges("displayDT")
+		f.Data.Datatable.CreateFromXML("tmpDisplay", v.Local.sXMLFile, True)
+		f.Data.Datatable.Merge("tmpDisplay", "displayDT", false, 2)
+		f.Data.Datatable.AcceptChanges("displayDT")
+		f.Data.Datatable.Close("tmpDisplay")
+		f.Intrinsic.File.DeleteFile(v.Local.sXMLFile)
+		'Update date
+		f.Intrinsic.String.Build("Last Updated: {0} {1}", v.Ambient.Date, v.Ambient.Time, v.Local.sCaption)
+		gui.F_Display1.lbl1.Caption(v.Local.sCaption)
+		
+		'Delete File
+		'f.Intrinsic.File.DeleteDir(v.Local.sXMLFile)
+		'Best Fit Columns
+		gui.F_Display1.GsGcDisplay1.BestFitColumns("display1GV")
+		gui.F_Display2.GsGcDisplay2.BestFitColumns("display2GV")
+		gui.F_Display3.GsGcDisplay3.BestFitColumns("display3GV")
+		gui.F_Display4.GsGcDisplay4.BestFitColumns("display4GV")
+	f.Intrinsic.Control.EndIf	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.Control.CallSub(ErrorMsg, CurrentSub, v.Ambient.CurrentSubroutine)
+f.Intrinsic.Control.EndTry
+Program.Sub.refreshDT.End
+
+Program.Sub.Serialize.Start
+v.Local.sSerialize.Declare
+v.Local.sGC.Declare
+v.Local.sGV.Declare
+v.Local.iNum.Declare
+v.Local.sForm.Declare
+f.Intrinsic.Control.Try
+	v.Local.sGC.Set(v.Args.sPassedGC)
+	v.Local.sGV.Set(v.Args.sPassedGV)
+	v.Local.iNum.Set(v.Args.iPassedNum)
+	v.Local.sForm.Set(v.Args.sPassedForm)
+	
+	gui.[v.Local.sForm].[v.Local.sGC].Serialize(v.Local.sGV, v.Local.sSerialize)
+	f.Global.Registry.AddValue(v.Caller.User, v.Caller.CompanyCode, v.Local.sGV, v.Local.iNum, 1000, False, "Serialize", False, 0, -999.0, 1/1/1980, 12:00:00 AM, v.Local.sSerialize)		
+f.Intrinsic.Control.Catch
+	f.Intrinsic.Control.CallSub(ErrorMsg, CurrentSub, v.Ambient.CurrentSubroutine)
+f.Intrinsic.Control.EndTry
+Program.Sub.Serialize.End
+
+Program.Sub.Deserialize.Start
+v.Local.sSerialize.Declare
+v.Local.sGC.Declare
+v.Local.sGV.Declare
+v.Local.iNum.Declare
+v.Local.sForm.Declare
+v.Local.sSQL.Declare
+
+f.Intrinsic.Control.Try
+	v.Local.sGV.Set(v.Args.sPassedGV)
+	v.Local.sGC.Set(v.Args.sPassedGC)
+	v.Local.iNum.Set(v.Args.iPassedNum)
+	v.Local.sForm.Set(v.Args.sPassedForm)
+
+	f.Global.Registry.ReadValue(v.Caller.User, v.Caller.CompanyCode, v.Local.sGV, v.Local.iNum, 0, 5, "", v.Local.sSerialize)
+	f.Intrinsic.Control.If(v.Local.sSerialize, <>, "")
+		f.ODBC.Connection!common.OpenCommonConnection
+			f.Intrinsic.String.Build("delete from GS_REGISTRY where REG_ID = '{0}'", v.Local.iNum, v.Local.sSQL)
+			f.ODBC.Connection!common.Execute(v.Local.sSQL)
+		f.ODBC.Connection!common.Close
+	f.Intrinsic.Control.EndIf
+	
+	f.Global.Registry.ReadValue(v.Caller.User, v.Caller.CompanyCode, v.Local.sGV, v.Local.iNum, 1000, 6, "", v.Local.sSerialize)
+	f.Intrinsic.Control.If(v.Local.sSerialize.Trim, <>, "")
+		gui.[v.Local.sForm].[v.Local.sGC].Deserialize(v.Local.sSerialize)
+	f.Intrinsic.Control.EndIf
+f.Intrinsic.Control.Catch
+	f.Intrinsic.Control.CallSub(ErrorMsg, CurrentSub, v.Ambient.CurrentSubroutine)
+f.Intrinsic.Control.EndTry
+Program.Sub.Deserialize.End
+
+Program.Sub.F_Display2_UnLoad.Start
+f.Intrinsic.Control.Try
+	gui.F_Display2..Visible(False)
+f.Intrinsic.Control.Catch
+	f.Intrinsic.Control.CallSub(ErrorMsg, CurrentSub, v.Ambient.CurrentSubroutine)
+f.Intrinsic.Control.EndTry
+Program.Sub.F_Display2_UnLoad.End
+
+Program.Sub.F_Display3_UnLoad.Start
+f.Intrinsic.Control.Try
+	gui.F_Display3..Visible(False)
+f.Intrinsic.Control.Catch
+	f.Intrinsic.Control.CallSub(ErrorMsg, CurrentSub, v.Ambient.CurrentSubroutine)
+f.Intrinsic.Control.EndTry
+Program.Sub.F_Display3_UnLoad.End
+
+Program.Sub.F_Display4_UnLoad.Start
+f.Intrinsic.Control.Try
+	gui.F_Display4..Visible(False)
+f.Intrinsic.Control.Catch
+	f.Intrinsic.Control.CallSub(ErrorMsg, CurrentSub, v.Ambient.CurrentSubroutine)
+f.Intrinsic.Control.EndTry
+Program.Sub.F_Display4_UnLoad.End
+
+Program.Sub.refreshLoop.Start
+v.Local.iCnt.Declare
+v.Local.bFileExists.Declare
+v.Local.sFile.Declare
+f.Intrinsic.Control.Try
+	f.Intrinsic.String.Build("{0}\CUSTOM\GCG_5869\dt.xml", v.Caller.GlobalDir, v.Local.sFile)
+	f.Intrinsic.Control.DoUntil(v.Local.bFileExists)
+		'Check if file exists.
+		f.Intrinsic.File.Exists(v.Local.sFile, v.Local.bFileExists)
+		'If it exists refresh.
+		f.Intrinsic.Control.If(v.Local.bFileExists)
+			f.Intrinsic.UI.InvokeWaitDialog("Reloading List", "Loading", )
+			'Refresh
+			f.Intrinsic.Control.CallSub(refreshDT)
+			'Set to False & close dialog.
+			v.Local.bFileExists.Set(False)
+			gui.F_Display1.GsGcDisplay1.ClearSorting("display1GV")
+			gui.F_Display2.GsGcDisplay2.ClearSorting("display2GV")
+			gui.F_Display3.GsGcDisplay3.ClearSorting("display3GV")
+			gui.F_Display4.GsGcDisplay4.ClearSorting("display4GV")
+			f.Intrinsic.UI.CloseWaitDialog
+		f.Intrinsic.Control.EndIf		
+	f.Intrinsic.Control.Loop
+f.Intrinsic.Control.Catch
+	f.Intrinsic.Control.CallSub(ErrorMsg, CurrentSub, v.Ambient.CurrentSubroutine)
+f.Intrinsic.Control.EndTry
+Program.Sub.refreshLoop.End
+
+Program.Sub.cmdShowAll_Click.Start
+f.Intrinsic.Control.Try
+	gui.F_Display2..Visible(True)
+	gui.F_Display3..Visible(True)
+	gui.F_Display4..Visible(True)
+f.Intrinsic.Control.Catch
+	f.Intrinsic.Control.CallSub(ErrorMsg, CurrentSub, v.Ambient.CurrentSubroutine)
+f.Intrinsic.Control.EndTry
+Program.Sub.cmdShowAll_Click.End
+
+Program.Sub.cmdRefresh_Click.Start
+v.Local.sFile.Declare
+v.Local.sGab.Declare
+v.Local.bExist.Declare
+v.Local.iRet.Declare
+f.Intrinsic.Control.Try
+
+	f.Intrinsic.String.Build("{0}GCG_5869_WIP_DATA.g2u", v.Caller.GasDir, v.Local.sGab)
+	f.Intrinsic.String.Build("{0}\CUSTOM\GCG_5869\Running{1}.txt", v.Caller.GlobalDir, v.Caller.CompanyCode, v.Local.sFile)
+	f.Intrinsic.File.Exists(v.Local.sFile, v.Local.bExist)
+	
+	f.Intrinsic.Control.If(v.Local.bExist)
+		f.Intrinsic.UI.Msgbox("Refresh is running do you wish to refresh anyways?", "Refresh in Procces", 4, v.Local.iRet)
+		f.Intrinsic.Control.If(v.Local.iRet, =, 6)
+			f.Intrinsic.File.DeleteFile(v.Local.sFile)
+			f.Global.General.CallSyncGAS(v.Local.sGab)
+		f.Intrinsic.Control.EndIf
+	f.Intrinsic.Control.Else
+		f.Global.General.CallSyncGAS(v.Local.sGab)
+	f.Intrinsic.Control.EndIf
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.Control.CallSub(ErrorMsg, CurrentSub, v.Ambient.CurrentSubroutine)
+f.Intrinsic.Control.EndTry
+Program.Sub.cmdRefresh_Click.End
+
+Program.Sub.Comments.Start
+${$5$}$3.0.0.0$}$1
+${$6$}$aanazco$}$20201008115259451$}$7aQAV3Tor/tR9bkuakHbuzQlHVuXCGOzSt/FSh7oHkZl4X7nuhHvYpVjk/aLrBmf3R5XhAR2vYw=
+Program.Sub.Comments.End
