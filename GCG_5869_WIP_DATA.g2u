@@ -1,0 +1,370 @@
+﻿Program.Sub.Preflight.Start
+v.Global.sFolder.Declare
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+Function.Intrinsic.UI.UsePixels ' Allows you to use Pixels instead of Twips throughout
+f.Intrinsic.Control.CallSub(checkCustomFolder)
+f.Intrinsic.Control.CallSub(checkFile)
+f.Intrinsic.Control.CallSub(Test)
+Program.Sub.Main.End
+
+Program.Sub.ErrorMsg.Start
+v.Local.sError.Declare
+v.Local.sFile.Declare
+v.Local.bExits.Declare
+'Closes ODBC connection, default to connection : "con"
+'f.Intrinsic.Control.If(v.ODBC!con.State, =, 1)
+'	f.ODBC.Connection!con.Close
+'f.Intrinsic.Control.EndIf
+
+'Delete Dir
+f.Intrinsic.String.Build("{0}\CUSTOM\GCG_5869\Running{1}.txt", v.Caller.GlobalDir, v.Caller.CompanyCode, v.Local.sFile)
+f.Intrinsic.File.Exists(v.Local.sFile, v.Local.bExits)
+f.Intrinsic.Control.If(v.Local.bExits)
+	f.Intrinsic.File.DeleteFile(v.Local.sFile)
+f.Intrinsic.Control.EndIf
+
+'Generic Error message.
+f.Intrinsic.String.Build("Project GCG_5869_WIP_DATA.g2u {0}{0}Subroutine: {1}{0}Error: {2} with Description: {3}", v.Ambient.NewLine, v.Args.CurrentSub, v.Ambient.ErrorNumber, v.Ambient.ErrorDescription, v.Local.sError)
+f.Intrinsic.UI.InvokeWaitDialog(v.Local.sError, "Error")
+f.Intrinsic.UI.Timer(40)
+f.Intrinsic.UI.CloseWaitDialog
+'f.Intrinsic.UI.Msgbox(v.Local.sError)
+Program.Sub.ErrorMsg.End
+
+Program.Sub.checkCustomFolder.Start
+v.Local.sFolder.Declare
+v.Local.bExists.Declare
+f.Intrinsic.Control.Try
+	f.Intrinsic.String.Build("{0}\CUSTOM\GCG_5869\", v.Caller.GlobalDir, v.Local.sFolder)
+	v.Global.sFolder.Set(v.Local.sFolder)
+	f.Intrinsic.File.DirExists(v.Local.sFolder, v.Local.bExists)
+	f.Intrinsic.Control.If(v.Local.bExists.Not)
+		f.Intrinsic.File.CreateDir(v.Local.sFolder)
+	f.Intrinsic.Control.EndIf
+f.Intrinsic.Control.Catch
+	f.Intrinsic.Control.CallSub(ErrorMsg, CurrentSub, v.Ambient.CurrentSubroutine)
+f.Intrinsic.Control.EndTry
+Program.Sub.checkCustomFolder.End
+
+Program.Sub.Test.Start
+v.Local.sJob.Declare
+v.Local.sSuffix.Declare
+v.Local.sSeq.Declare
+v.Local.sJSS.Declare
+
+v.Local.sQty.Declare
+v.Local.sPart.Declare
+v.Local.sMfg2Stock.Declare
+v.Local.sPiecesCompleted.Declare
+v.Local.fHoursEstimated.Declare
+v.Local.fHoursActual.Declare
+v.Local.sEmployee.Declare
+v.Local.sStatus.Declare
+v.Local.sWC.Declare
+v.Local.sWC_Image.Declare
+v.Local.sWC_Format.Declare
+v.Local.sOverWorked.Declare
+
+v.Local.sText.Declare
+v.Local.sFormat.Declare
+
+v.Local.iDays.Declare
+v.Local.dRangeDate.Declare
+
+v.Local.sDT_String.Declare
+v.Local.sDT_Titles.Declare
+v.Local.iRowCount.Declare
+v.Local.iRowTest.Declare
+
+v.Local.sSQL.Declare
+v.Local.sFilter.Declare
+v.Local.iCnt.Declare
+v.Local.iWC_Cnt.Declare
+v.Local.iCnt2.Declare
+v.Local.sPicturePath.Declare
+v.Local.sRootPath.Declare
+
+v.Local.sXML_File.Declare
+v.Local.sFile.Declare
+
+v.Local.sDesc.Declare
+v.Local.fQty.Declare
+
+v.Local.bFileExtist.Declare
+v.Local.sImageArray.Declare("ByteArray")
+f.Intrinsic.Control.Try
+
+
+	'f.Intrinsic.String.Build("Select distinct CAST(0 as bit) as Selected,Job, sfx as Suffix,Right(JSS,6) as seq, SAR as WC,ROG as Department,RTRIM(' ') as INVCHECK,JSS from APSV3_UBDETAIL where SEQ < '995000' and SAR in (select Machine from Workcenters where Nesting_Intrfc = 'Y') and HOURTYPE = 1 and bdate >= '{0}' and bdate <= '{1}' ",v.Local.dFromDt.PervasiveDate,v.Local.dToDt.PervasiveDate,v.Local.sSQL)
+	'f.Intrinsic.String.Build("Select distinct CAST(0 as bit) as Selected,Job, sfx as Suffix,Right(JSS,6) as seq, SAR as WC,ROG as Department,RTRIM(' ') as INVCHECK,JSS from APSV3_UBDETAIL where SEQ < '995000' and SAR in (select Machine from Workcenters where Nesting_Intrfc = 'Y') and HOURTYPE = 1 ",v.Local.sSQL)
+	
+	f.Data.Datatable.Create("wcDT", True)
+	f.Data.Datatable.AddColumn("wcDT", "wc", "String")
+	f.Data.Datatable.AddColumn("wcDT", "Job", "String")
+	f.Data.Datatable.AddColumn("wcDT", "Suffix", "String")
+	f.Data.Datatable.AddColumn("wcDT", "Seq", "String")
+	f.Data.Datatable.AddColumn("wcDT", "Part", "String")
+	f.Data.Datatable.AddColumn("wcDT", "MFG", "String")
+	f.Data.Datatable.AddColumn("wcDT", "Est_Time", "String")
+	f.Data.Datatable.AddColumn("wcDT", "Employee", "String")
+	f.Data.Datatable.AddColumn("wcDT", "Status", "String")
+
+	'Pulling data
+	f.ODBC.Connection!con.OpenCompanyConnection
+		f.ODBC.Connection!con.ExecuteAndReturn("Select top 1 Days from GCG_5869_DIR", v.Local.iDays)
+		
+		f.Intrinsic.Date.DateAdd("d", v.Local.iDays, v.Ambient.Date, v.Local.dRangeDate)
+		'f.Intrinsic.String.Build("Select distinct Job, sfx as Suffix,Right(JSS,6) as seq, SAR as WC,ROG as Department,RTRIM(' ') as INVCHECK, JSS, JS, JS as Part, bdate from APSV3_UBDETAIL where SEQ < '995000' and SAR in (select Machine from Workcenters ) and HOURTYPE = 1 and bdate >= '{0}' and bdate <= '{1}'", v.Ambient.Date.PervasiveDate, v.Local.dRangeDate.PervasiveDate, v.Local.sSQL)
+		f.Intrinsic.String.Build("Select distinct Job, sfx as Suffix,Right(JSS,6) as seq, SAR as WC, ROG as Department,RTRIM(' ') as INVCHECK, JSS, JS, JS as Part, bdate from APSV3_UBDETAIL where SEQ < '995000' and SAR in (select Machine from Workcenters ) and HOURTYPE = 1 and bdate <= '{0}'", v.Local.dRangeDate.PervasiveDate, v.Local.sSQL)
+		f.Data.Datatable.CreateFromSQL("preTest", "con", v.Local.sSQL)
+		f.Data.Dictionary.CreateFromSQL("orderDict", "con", "Select Job+Right('000'+RTrim(Suffix), 3)+Right('0000000'+RTrim(Seq), 6) as colKey, ifnull(cast(Order_Sort as Integer), 1000000) as Order_Sort from GCG_5715_COLUMNS")
+		f.Data.Dictionary.SetDefaultReturn("orderDict", 1000000)
+		f.Data.Datatable.AddColumn("preTest", "orderSort", "Long", 1000000)
+		f.Data.Datatable.FillFromDictionary("preTest", "orderDict", "jss", "orderSort")
+		f.Data.Dictionary.Close("orderDict")
+		f.Data.Datatable.AcceptChanges("preTest")
+		f.Data.DataView.Create("preTest", "preTestDV", 22, "", "orderSort, bdate, seq asc")
+		f.Data.DataView.ToDataTable("preTest", "preTestDV", "TEST")
+		f.Data.DataView.Close("preTest", "preTestDV")
+		f.Data.Datatable.Close("preTest")
+		
+		'f.Data.Datatable.CreateFromSQL("TEST", "con", "Select distinct Job, sfx as Suffix,Right(JSS,6) as seq, SAR as WC,ROG as Department,RTRIM(' ') as INVCHECK, JSS, JS, JS as Part from APSV3_UBDETAIL where SEQ < '995000' and SAR in (select Machine from Workcenters ) and HOURTYPE = 1 ")
+		f.Data.Datatable.CreateFromSQL("jobheader", "con", "Select * from Job_header")
+		f.Data.Datatable.CreateFromSQL("jobdetail", "con", "Select * from Job_detail")
+		f.Data.Datatable.CreateFromSQL("jobDetailDT", "con", "Select Job+Suffix+seq as jss, Job, Suffix, Seq, part, description, hours_worked, pieces_compltd from job_detail")
+		
+		f.Data.Dictionary.CreateFromSQL("PartDict", "con", "select job+suffix as js, part from  V_JOB_HEADER;")
+		f.Data.Dictionary.CreateFromSQL("DescDict", "con", "select part, description from  V_INVENTORY_MSTR;")
+		'f.Data.Dictionary.CreateFromSQL("QtyDict", "con", "select job+suffix as js, part from  V_JOB_HEADER;")
+		
+		f.ODBC.Connection!con.ExecuteAndReturn("Select top 1 Directory from GCG_5869_DIR", v.Local.sRootPath)
+	f.ODBC.Connection!con.Close
+
+	'Fill dictionary for Parts Number.
+	f.Data.Dictionary.SetDefaultReturn("PartDict", "")
+	f.Data.Datatable.FillFromDictionary("TEST", "PartDict", "Part", "Part")
+	'Dictionary for Description
+	f.Data.Datatable.AddColumn("TEST", "Desc", "String")
+	f.Data.Dictionary.SetDefaultReturn("DescDict", "")
+	f.Data.Datatable.FillFromDictionary("TEST", "PartDict", "Part", "Desc")
+	'Get a distinct list of Workcenters
+	f.Data.DataView.Create("TEST", "testDV", 22)
+	f.Data.DataView.ToDataTableDistinct("TEST", "testDV", "disWCDT", "WC", True)
+	'Create Tables for data management and export.
+	f.Data.Datatable.Create("xmlDT", True)
+	f.Data.Datatable.Create("exportDT", True)
+	'Create xml columns
+	f.Intrinsic.String.Build("{0}\NoImage.jpg", v.Local.sRootPath.Trim, v.Local.sPicturePath)
+	
+	'Create Columns for tables
+	f.Intrinsic.Control.For(v.Local.iCnt, 0, v.DataTable.disWCDT.RowCount--, 1)
+		v.Local.sWC.Set(v.DataTable.disWCDT(v.Local.iCnt).WC!FieldValTrim)
+		f.Intrinsic.String.Build("{0}_Image", v.Local.sWC, v.Local.sWC_Image)
+		f.Intrinsic.String.Build("{0}_Format", v.Local.sWC, v.Local.sWC_Format)
+		
+		f.Data.Datatable.AddColumn("xmlDT", v.Local.sWC_Format.Trim, "String")		
+		f.Data.Datatable.AddColumn("xmlDT", v.Local.sWC.Trim, "String")
+		f.Data.Datatable.AddColumn("xmlDT", v.Local.sWC_Image.Trim, "String", v.Local.sPicturePath)
+	
+		f.Data.Datatable.AddColumn("exportDT", v.Local.sWC_Format.Trim, "String")
+		f.Data.Datatable.AddColumn("exportDT", v.Local.sWC.Trim, "String")
+		f.Data.Datatable.AddColumn("exportDT", v.Local.sWC_Image.Trim, "ByteArray")		
+	f.Intrinsic.Control.Next(v.Local.iCnt)
+	'Populate XML DT
+	f.Intrinsic.Control.For(v.Local.iCnt, 0, v.DataTable.TEST.RowCount--, 1)
+		v.Local.bFileExtist.Set(False)
+		'Job Details
+		v.Local.sJSS.Set(v.DataTable.TEST(v.Local.iCnt).JSS!FieldValTrim)
+		v.Local.sJob.Set(v.DataTable.TEST(v.Local.iCnt).Job!FieldValtrim)
+		v.Local.sSuffix.Set(v.DataTable.TEST(v.Local.iCnt).Suffix!FieldValTrim)
+		v.Local.sSeq.Set(v.DataTable.TEST(v.Local.iCnt).Seq!FieldValTrim)
+		
+		v.Local.sWC.Set(v.DataTable.TEST(v.Local.iCnt).WC!FieldValTrim)
+		f.Intrinsic.String.Build("{0}_Image", v.Local.sWC, v.Local.sWC_Image)
+		f.Intrinsic.String.Build("{0}_Format", v.Local.sWC, v.Local.sWC_Format)
+		
+		v.Local.sPart.Set(v.DataTable.TEST(v.Local.iCnt).Part!FieldValTrim)
+		v.Local.sDesc.Set(v.DataTable.TEST(v.Local.iCnt).Desc!FieldValTrim)
+		
+		v.Local.sText.Set("")
+		v.Local.sStatus.Set("")
+		
+		f.ODBC.Connection!con.OpenCompanyConnection
+			f.Intrinsic.String.Build("Select top 1 Pieces_Compltd from Job_detail where Job = '{0}' and Suffix = '{1}' and Seq = '{2}'", v.Local.sJob, v.Local.sSuffix, v.Local.sSeq, v.Local.sSQL)
+			f.ODBC.Connection!con.ExecuteAndReturn(v.Local.sSQL, v.Local.sPiecesCompleted) 
+			
+			f.Intrinsic.String.Build("Select top 1 Employee from JOBS_IN_PROCESS_G where Job = '{0}' and Suffix = '{1}'and Seq = '{2}'", v.Local.sJob, v.Local.sSuffix, v.Local.sSeq, v.Local.sSQL)
+			f.ODBC.Connection!con.ExecuteAndReturn(v.Local.sSQL, v.Local.sEmployee) 
+			
+			f.Intrinsic.String.Build("Select top 1 Hours_Estimated from Job_Operations where Job = '{0}' and Suffix = '{1}' and Seq = '{2}'", v.Local.sJob, v.Local.sSuffix, v.Local.sSeq, v.Local.sSQL)
+			f.ODBC.Connection!con.ExecuteAndReturn(v.Local.sSQL, v.Local.fHoursEstimated)
+			
+			f.Intrinsic.String.Build("Select top 1 Hours_Actual from Job_Operations where Job = '{0}' and Suffix = '{1}' and Seq = '{2}'", v.Local.sJob, v.Local.sSuffix, v.Local.sSeq, v.Local.sSQL)
+			f.ODBC.Connection!con.ExecuteAndReturn(v.Local.sSQL, v.Local.fHoursActual)
+			
+			f.Intrinsic.String.Build("Select * from JOB_OPERATIONS where Job = '{0}' and Suffix = '{1}' and Seq > '{2}' and Flag_Closed = 'Y' and LMO = 'L'", v.Local.sJob, v.Local.sSuffix, v.Local.sSeq, v.Local.sSQL)
+			f.Data.Datatable.CreateFromSQL("skipDT", "con", v.Local.sSQL)
+			
+			f.Intrinsic.String.Build("Select * from JOB_OPERATIONS where Job = '{0}' and Suffix = '{1}' and Seq < '{2}' and Flag_Closed <> 'Y' and LMO = 'L'", v.Local.sJob, v.Local.sSuffix, v.Local.sSeq, v.Local.sSQL)
+			f.Data.Datatable.CreateFromSQL("seqDT", "con", v.Local.sSQL)
+			
+			f.Intrinsic.String.Build("Select top 1 QTY_ORDER from JOB_HEADER where Job = '{0}' and Suffix = '{1}' ", v.Local.sJob, v.Local.sSuffix, v.Local.sSQL)
+			f.ODBC.Connection!con.ExecuteAndReturn(v.Local.sSQL, v.Local.fQty)
+			
+			f.Intrinsic.Control.If(v.Local.sDesc.Trim, =, "")
+				f.Intrinsic.String.Build("Select top 1 Description from V_INVENTORY_MSTR where part = '{0}'", v.Local.sPart, v.Local.sSQL)
+				f.ODBC.Connection!con.ExecuteAndReturn(v.Local.sSQL, v.Local.sDesc)
+			f.Intrinsic.Control.EndIf
+			
+		f.ODBC.Connection!con.Close
+		
+		v.Local.sStatus.Set("0")
+		'Check if the sequence has been skipped
+		f.Intrinsic.Control.If(v.DataTable.skipDT.RowCount, =, 0)
+			'Check if there are more than 2 sequences ahead.
+			f.Intrinsic.Control.If(v.DataTable.seqDT.RowCount, >, 1)
+				v.Local.sStatus.Set("3")
+			f.Intrinsic.Control.EndIf
+			'Check if there is 1 sequence ahead.
+			f.Intrinsic.Control.If(v.DataTable.seqDT.RowCount, =, 1)
+				v.Local.sStatus.Set("2")
+			f.Intrinsic.Control.EndIf
+			'Check if there are 0 sequences ahead.
+			f.Intrinsic.Control.If(v.DataTable.seqDT.RowCount, <, 1)
+				v.Local.sStatus.Set("1")
+			f.Intrinsic.Control.EndIf
+		f.Intrinsic.Control.Else
+			'Set as skipped.
+			v.Local.sStatus.Set("4")
+		f.Intrinsic.Control.EndIf
+		
+		f.Data.Datatable.Close("skipDT")
+		f.Data.Datatable.Close("seqDT")
+		'Overworked Hours String.
+		f.Intrinsic.Control.If(v.Local.fHoursActual, >, v.Local.fHoursEstimated)
+			f.Intrinsic.String.Build("*HRS EST SURPASSED*{0}", v.Ambient.NewLine, v.Local.sOverWorked)
+		f.Intrinsic.Control.Else	
+			v.Local.sOverWorked.Set("")
+		f.Intrinsic.Control.EndIf
+		
+		'Build String for Info Column.
+		f.Intrinsic.String.Build("Job: {2}{1}Suffix: {3}{1}Seq: {4}{1}Part: {8}{1}Desc: {11}{1}WO Qty: {12}{1}Employee: {5}{1}Hours Estimated: {10}{1}{13}Hours Worked: {6}{1}Pieces Completed: {7}{1}Status: {9}{1}", v.Local.sJSS.Trim, v.Ambient.NewLine, v.Local.sJob.Trim, v.Local.sSuffix.Trim, v.Local.sSeq.Trim, v.Local.sEmployee, v.Local.fHoursActual, v.Local.sPiecesCompleted, v.Local.sPart, v.Local.sStatus, v.Local.fHoursEstimated, v.Local.sDesc.Trim, v.Local.fQty, v.Local.sOverWorked, v.Local.sText)		
+		
+		'Testing (Error: Path was not UNC)
+'		f.Intrinsic.Control.If(v.Local.sPart.Trim, =, "C0034125")
+'			Function.Intrinsic.Debug.InvokeDebugger		
+'			Function.Intrinsic.Debug.Stop
+'		f.Intrinsic.Control.EndIf
+		f.Intrinsic.String.Build("{0}\{1}.jpg", v.Local.sRootPath.Trim, v.Local.sPart, v.Local.sPicturePath)
+		'Remove Empty spaces
+		f.Intrinsic.String.Replace(v.Local.sPicturePath, " ", "", v.Local.sPicturePath)
+		'Check if there is a picture for the Part, else default to No Image.
+		f.Intrinsic.File.Exists(v.Local.sPicturePath, v.Local.bFileExtist)
+		f.Intrinsic.Control.If(v.Local.bFileExtist.Not)
+			'f.Intrinsic.String.Build("{0}\NoImage.jpg", v.Local.sRootPath.Trim, v.Local.sPicturePath) 'Random Part Image.
+			f.Intrinsic.String.Build("{0}\NoImage.png", v.Local.sRootPath.Trim, v.Local.sPicturePath)
+		f.Intrinsic.Control.EndIf		
+		'Add Rows to different 
+		f.Data.Datatable.AddRow("xmlDT", v.Local.sWC_Format.Trim, v.Local.sStatus, v.Local.sWC.Trim, v.Local.sText, v.Local.sWC_Image.Trim, v.Local.sPicturePath)
+		f.Data.Datatable.AddRow("exportDT", v.Local.sWC.Trim, v.Local.sText)
+	f.Intrinsic.Control.Next(v.Local.iCnt)
+	
+	f.Data.DataView.Create("xmlDT", "xmlDV", 22)
+	'f.Data.DataView.ToDataTable("xmlDT", "xmlDV", "exportDT")
+	v.Local.iCnt.Set(0)
+
+
+	f.Intrinsic.Control.For(v.Local.iCnt, 0, v.DataTable.disWCDT.RowCount--, 1)
+
+		v.Local.sWC.Set(v.DataTable.disWCDT(v.Local.iCnt).WC!FieldValTrim)
+'		f.Intrinsic.Control.If(v.Local.sWC, =, "DIA1")
+'		
+'		f.Intrinsic.Control.EndIf
+		f.Intrinsic.String.Build("{0}_Image", v.Local.sWC, v.Local.sWC_Image)
+		f.Intrinsic.String.Build("{0}_Format", v.Local.sWC, v.Local.sWC_Format)
+		
+		f.Intrinsic.String.Build("{0} <> ''", v.Local.sWC, v.Local.sFilter)		
+		f.Data.DataView.SetFilter("xmlDT", "xmlDV", v.Local.sFilter)
+		
+		f.Intrinsic.Control.If(v.Local.sDT_Titles.Trim, =, "")
+			v.Local.sDT_Titles.Set(v.Local.sWC.Trim)
+		f.Intrinsic.Control.Else
+			f.Intrinsic.String.Build("{0}*!*{1}", v.Local.sDT_Titles.Trim, v.Local.sWC.Trim, v.Local.sDT_Titles)
+		f.Intrinsic.Control.EndIf
+		
+		f.Data.Datatable.SetValue("exportDT", -1, v.Local.sWC, " ")
+		'f.Data.Datatable.SetValue("exportDT", -1, v.Local.sWC_Image, " ")
+		f.Data.Datatable.SetValue("exportDT", -1, v.Local.sWC_Format, " ")
+		v.Local.iCnt2.Set(0)
+
+		f.Intrinsic.Control.For(v.Local.iCnt2, 0, v.DataView.xmlDT!xmlDV.RowCount--, 1)
+			v.Local.sText.Set(v.DataView.xmlDT!xmlDV(v.Local.iCnt2).[v.Local.sWC]!FieldValTrim)
+			v.Local.sPicturePath.Set(v.DataView.xmlDT!xmlDV(v.Local.iCnt2).[v.Local.sWC_Image]!FieldValTrim)
+			f.Image.File.ToBytearray( v.Local.sPicturePath.Trim, v.Local.sImageArray)
+			v.Local.sFormat.Set(v.DataView.xmlDT!xmlDV(v.Local.iCnt2).[v.Local.sWC_Format]!FieldValTrim)
+			
+			f.Data.Datatable.SetValue("exportDT", v.Local.iCnt2, v.Local.sWC, v.Local.sText, v.Local.sWC_Image, v.Local.sImageArray, v.Local.sWC_Format, v.Local.sFormat)
+		f.Intrinsic.Control.Next(v.Local.iCnt2)
+	f.Intrinsic.Control.Next(v.Local.iCnt)
+	
+	'Check We have at least one Workcenter to Upload.
+	f.Intrinsic.Control.If(v.Local.sDT_Titles.Trim, =, "")
+		f.Intrinsic.Control.End
+	f.Intrinsic.Control.EndIf
+	'
+	f.Data.DataView.Create("exportDT", "exportDV", 22)
+	f.Data.DataView.ToString("exportDT", "exportDV",v.Local.sDT_Titles, "*!*", "|@!@|", v.Local.sDT_String)
+	f.Data.DataView.Close("exportDT", "exportDV")
+
+	f.Intrinsic.String.Replace(v.Local.sDT_String, "*!*", "", v.Local.sDT_String)
+	f.Intrinsic.String.Replace(v.Local.sDT_String, "", "", v.Local.sDT_String)
+	f.Data.Datatable.CreateFromString("noEmptyDT", v.Local.sDT_String, "title", "String", "*!*", "|@!@|")
+	f.Data.DataView.Create("noEmptyDT", "noEmptyDV", 22, "title <> ''", "")
+	v.Local.iRowCount.Set(v.DataView.noEmptyDT!noEmptyDV.RowCount)
+
+	f.Intrinsic.Control.If(v.Local.iRowCount, <, v.DataTable.exportDT.RowCount--)
+		f.Intrinsic.Control.For(v.Local.iCnt, v.DataTable.exportDT.RowCount--, v.Local.iRowCount, -1)
+			f.Data.DataTable.DeleteRow("exportDT", v.Local.iRowCount)
+			v.Local.iRowTest.Set(v.DataTable.exportDT.RowCount--)
+		f.Intrinsic.Control.Next(v.Local.iCnt)
+	f.Intrinsic.Control.EndIf
+
+	v.Local.iRowCount.Set(v.DataTable.exportDT.RowCount--)
+	
+	f.Intrinsic.String.Build("{0}dt{1}.xml", v.Global.sFolder.Trim, v.Caller.CompanyCode, v.Local.sXML_File)
+	
+	f.Data.Datatable.SaveToXML("exportDT", 0, True, v.Local.sXML_File)
+	'f.Intrinsic.UI.Msgbox("Export Completed")
+	
+	f.Intrinsic.String.Build("{0}\CUSTOM\GCG_5869\Running{1}.txt", v.Caller.GlobalDir, v.Caller.CompanyCode, v.Local.sFile)
+	f.Intrinsic.File.DeleteFile(v.Local.sFile)
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.Control.CallSub(ErrorMsg, CurrentSub, v.Ambient.CurrentSubroutine)
+f.Intrinsic.Control.EndTry
+Program.Sub.Test.End
+
+Program.Sub.checkFile.Start
+v.Local.sFile.Declare
+v.Local.bExist.Declare
+f.Intrinsic.Control.Try
+	f.Intrinsic.String.Build("{0}\CUSTOM\GCG_5869\Running{1}.txt", v.Caller.GlobalDir, v.Caller.CompanyCode, v.Local.sFile)
+	f.Intrinsic.File.Exists(v.Local.sFile, v.Local.bExist)
+	
+	f.Intrinsic.Control.If(v.Local.bExist)
+		f.Intrinsic.Control.End
+	f.Intrinsic.Control.Else
+		f.Intrinsic.File.String2File(v.Local.sFile, "TEST")
+	f.Intrinsic.Control.EndIf
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.Control.CallSub(ErrorMsg, CurrentSub, v.Ambient.CurrentSubroutine)
+f.Intrinsic.Control.EndTry
+Program.Sub.checkFile.End
+
+Program.Sub.Comments.Start
+${$5$}$3.0.0.0$}$1
+${$6$}$aanazco$}$20201006120817746$}$7aQAV3Tor/tR9bkuakHbuzQlHVuXCGOzSt/FSh7oHkY8VL8bfBRVRaoCbCrT9MHIRN4JEIbj6Kw=
+Program.Sub.Comments.End
