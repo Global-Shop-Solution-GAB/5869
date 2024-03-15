@@ -1,0 +1,148 @@
+﻿Program.Sub.ScreenSU.Start
+Gui.F_Dir..Create(BaseForm)
+Gui.F_Dir..Caption("Picture Directory")
+Gui.F_Dir..Size(465,90)
+Gui.F_Dir..MinX(0)
+Gui.F_Dir..MinY(0)
+Gui.F_Dir..Position(0,0)
+Gui.F_Dir..AlwaysOnTop(False)
+Gui.F_Dir..FontName("Tahoma")
+Gui.F_Dir..FontSize(8.25)
+Gui.F_Dir..ControlBox(True)
+Gui.F_Dir..MaxButton(True)
+Gui.F_Dir..MinButton(True)
+Gui.F_Dir..MousePointer(0)
+Gui.F_Dir..Moveable(True)
+Gui.F_Dir..Sizeable(True)
+Gui.F_Dir..ShowInTaskBar(True)
+Gui.F_Dir..TitleBar(True)
+Gui.F_Dir..Event(UnLoad,F_Dir_UnLoad)
+Gui.F_Dir.frmDir.Create(Frame)
+Gui.F_Dir.frmDir.Enabled(True)
+Gui.F_Dir.frmDir.Visible(True)
+Gui.F_Dir.frmDir.Zorder(0)
+Gui.F_Dir.frmDir.Size(456,50)
+Gui.F_Dir.frmDir.Position(5,5)
+Gui.F_Dir.frmDir.Caption("")
+Gui.F_Dir.frmDir.FontName("Tahoma")
+Gui.F_Dir.frmDir.FontSize(8.25)
+Gui.F_Dir.frmDir.BorderStyle(3)
+Gui.F_Dir.lbl1.Create(Label,"Picture Directory",True,80,13,0,6,5,True,0,"Tahoma",8.25,,0,0)
+Gui.F_Dir.lbl1.BorderStyle(0)
+Gui.F_Dir.lbl1.Parent("frmDir")
+Gui.F_Dir.txtDir.Create(TextBox,"",True,300,20,0,5,20,True,0,"Tahoma",8.25,,1)
+Gui.F_Dir.txtDir.Parent("frmDir")
+Gui.F_Dir.cmdFileBrw.Create(Button)
+Gui.F_Dir.cmdFileBrw.Enabled(True)
+Gui.F_Dir.cmdFileBrw.Visible(True)
+Gui.F_Dir.cmdFileBrw.Zorder(0)
+Gui.F_Dir.cmdFileBrw.Size(23,23)
+Gui.F_Dir.cmdFileBrw.Position(310,18)
+Gui.F_Dir.cmdFileBrw.Caption("^")
+Gui.F_Dir.cmdFileBrw.FontName("Tahoma")
+Gui.F_Dir.cmdFileBrw.FontSize(8.25)
+Gui.F_Dir.cmdFileBrw.Parent("frmDir")
+Gui.F_Dir.cmdFileBrw.Event(Click,cmdFileBrw_Click)
+Gui.F_Dir.cmdSave.Create(Button)
+Gui.F_Dir.cmdSave.Enabled(True)
+Gui.F_Dir.cmdSave.Visible(True)
+Gui.F_Dir.cmdSave.Zorder(0)
+Gui.F_Dir.cmdSave.Size(75,23)
+Gui.F_Dir.cmdSave.Position(376,18)
+Gui.F_Dir.cmdSave.Caption("Save")
+Gui.F_Dir.cmdSave.FontName("Tahoma")
+Gui.F_Dir.cmdSave.FontSize(8.25)
+Gui.F_Dir.cmdSave.Parent("frmDir")
+Gui.F_Dir.cmdSave.Event(Click,cmdSave_Click)
+Gui.F_Dir.txtDays.Create(TextBox,"",True,32,20,0,340,20,True,0,"Tahoma",8.25,,1)
+Gui.F_Dir.txtDays.Parent("frmDir")
+Gui.F_Dir.txtDays.NumericOnly(2)
+Gui.F_Dir.lbl2.Create(Label,"Days",True,24,13,0,341,5,True,0,"Tahoma",8.25,,0,0)
+Gui.F_Dir.lbl2.BorderStyle(0)
+Gui.F_Dir.lbl2.Parent("frmDir")
+Program.Sub.ScreenSU.End
+
+Program.Sub.Preflight.Start
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+f.Intrinsic.Control.Try
+	Function.Intrinsic.UI.UsePixels ' Allows you to use Pixels instead of Twips throughout
+	f.Intrinsic.Control.CallSub(loadDir)
+	gui.F_Dir..Show
+f.Intrinsic.Control.Catch
+	f.Intrinsic.Control.CallSub(ErrorMsg, CurrentSub, v.Ambient.CurrentSubroutine)
+f.Intrinsic.Control.EndTry
+Program.Sub.Main.End
+
+Program.Sub.loadDir.Start
+v.Local.sDir.Declare
+v.Local.iDays.Declare
+f.Intrinsic.Control.Try
+	'Get Directory
+	f.ODBC.Connection!con.OpenCompanyConnection
+		f.ODBC.Connection!con.ExecuteAndReturn("Select top 1 Directory from GCG_5869_DIR", v.Local.sDir)
+		f.ODBC.Connection!con.ExecuteAndReturn("Select top 1 Days from GCG_5869_DIR", v.Local.iDays)
+	f.ODBC.Connection!con.Close
+	f.Intrinsic.Control.If(v.Local.iDays, =, 0)
+		v.Local.iDays.Set(1)
+	f.Intrinsic.Control.EndIf
+	'Show Directory
+	gui.F_Dir.txtDir.Text(v.Local.sDir.Trim)
+	gui.F_Dir.txtDays.Text(v.Local.iDays)
+f.Intrinsic.Control.Catch
+	f.Intrinsic.Control.CallSub(ErrorMsg, CurrentSub, v.Ambient.CurrentSubroutine)
+f.Intrinsic.Control.EndTry
+Program.Sub.loadDir.End
+
+Program.Sub.F_Dir_UnLoad.Start
+f.Intrinsic.Control.Try
+	f.Intrinsic.Control.End
+f.Intrinsic.Control.Catch
+	f.Intrinsic.Control.CallSub(ErrorMsg, CurrentSub, v.Ambient.CurrentSubroutine)
+f.Intrinsic.Control.EndTry
+Program.Sub.F_Dir_UnLoad.End
+
+Program.Sub.cmdFileBrw_Click.Start
+v.Local.sRet.Declare
+f.Intrinsic.Control.Try
+	f.Intrinsic.UI.FolderBrowser("", , v.Local.sRet)
+	f.Intrinsic.Control.If(v.Local.sRet.Trim, <>, "***CANCEL***")
+		gui.F_Dir.txtDir.Text(v.Local.sRet.Trim)
+	f.Intrinsic.Control.EndIf
+f.Intrinsic.Control.Catch
+	f.Intrinsic.Control.CallSub(ErrorMsg, CurrentSub, v.Ambient.CurrentSubroutine)
+f.Intrinsic.Control.EndTry
+Program.Sub.cmdFileBrw_Click.End
+
+Program.Sub.cmdSave_Click.Start
+v.Local.sDir.Declare
+v.Local.sTemp.Declare
+v.Local.iDays.Declare
+v.Local.sSQL.Declare
+f.Intrinsic.Control.Try
+	'Set Insert
+	v.Local.sDir.Set(v.Screen.F_Dir!txtDir.Text)
+	v.Local.sTemp.Set(v.Screen.F_Dir!txtDays.Text)
+	f.Intrinsic.Control.If(v.Local.sTemp.IsNumeric)
+		v.Local.iDays.Set(v.Local.sTemp)
+	f.Intrinsic.Control.Else
+		v.Local.iDays.Set(1)
+	f.Intrinsic.Control.EndIf
+	'Create SQL and Insert
+	f.ODBC.Connection!con.OpenCompanyConnection
+		f.Intrinsic.String.Build("Insert into  GCG_5869_DIR (Directory, Days) Values ('{0}', '{1}')", v.Local.sDir.Trim, v.Local.iDays, v.Local.sSQL)
+		f.ODBC.Connection!con.Execute("Delete from GCG_5869_DIR")
+		f.ODBC.Connection!con.Execute(v.Local.sSQL)
+	f.ODBC.Connection!con.Close
+	'Message
+	f.Intrinsic.UI.Msgbox("Save Completed.")
+f.Intrinsic.Control.Catch
+	f.Intrinsic.Control.CallSub(ErrorMsg, CurrentSub, v.Ambient.CurrentSubroutine)
+f.Intrinsic.Control.EndTry
+Program.Sub.cmdSave_Click.End
+
+Program.Sub.Comments.Start
+${$5$}$3.0.0.0$}$1
+${$6$}$aanazco$}$20200506162054781$}$7aQAV3Tor/tR9bkuakHbuzQlHVuXCGOzJkHa5FootQYs877iEQROIhIQqvc7ua9OSYj26kSmfNE=
+Program.Sub.Comments.End
